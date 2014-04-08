@@ -1,6 +1,6 @@
 class Urls
-  def initialize
-    @urls = DB[:urls]
+  def initialize(db)
+    @urls = db[:urls]
   end
 
   def add(url)

@@ -1,10 +1,10 @@
-require 'capybara/rspec'
 require 'spec_helper'
-require_relative '../url_shortener'
-
-Capybara.app = UrlShortener
 
 feature 'URL Shortening' do
+  before do
+    Migrator.new(DB).run
+  end
+
   scenario 'Shorten a URL' do
     visit '/'
     fill_in('url', :with => 'http://google.com')

@@ -1,10 +1,10 @@
-require 'capybara/rspec'
 require 'spec_helper'
-require_relative '../url_shortener'
 
-Capybara.app = UrlShortener
 
 feature 'Counts views to each page' do
+  before do
+    Migrator.new(DB).run
+  end
   scenario 'it increases views when pages are visited' do
     visit '/'
     fill_in('url', :with => 'http://google.com')
