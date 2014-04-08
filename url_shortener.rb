@@ -5,27 +5,26 @@ require './urls'
 class UrlShortener < Sinatra::Application
 
   URLS = Urls.new
-  set :error => ''
-  set :url_to_shorten => ''
+  INVALID_URL_ERROR = 'Please+enter+a+valid+URL'
+  # set :error => ''
+  # set :url_to_shorten => ''
 
   get '/favicon.ico' do
     "nothing"
   end
 
   get '/' do
-    erb :index, :locals => {:error => settings.error, :url_to_shorten => settings.url_to_shorten}
+    error = params[:error]
+    url_to_shorten = params[:url]
+    erb :index, :locals => {:error => error, :url_to_shorten => url_to_shorten}
   end
 
   post '/shorten' do
     url_to_shorten = params[:url]
-    if url_to_shorten.empty? || url_to_shorten.split(' ').count > 1 || !is_valid_url?(url_to_shorten)
-      settings.error = 'Please enter a valid URL'
-      settings.url_to_shorten = url_to_shorten
-      redirect '/'
+    if url_to_shorten.empty? || url_to_shorten.split(' ').count > 1 || !is_valid_url?(url_to_shorten) || url_to_shorten.nil?
+      redirect "/?url=#{url_to_shorten}&error=#{INVALID_URL_ERROR}"
     else
       id = URLS.add(url_to_shorten)
-      settings.error = ''
-      settings.url_to_shorten = ''
       redirect to("/#{id}?stats=true")
     end
 
