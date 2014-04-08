@@ -16,4 +16,11 @@ feature 'URL Shortening' do
 
     expect(current_url).to eq 'http://google.com/'
   end
+
+  scenario 'User enters a blank url' do
+    visit '/'
+    fill_in('url', :with => '')
+    click_button('Shorten')
+    expect(page).to have_content('Please enter a valid URL')
+  end
 end
