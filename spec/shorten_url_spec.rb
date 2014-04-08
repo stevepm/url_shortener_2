@@ -23,4 +23,11 @@ feature 'URL Shortening' do
     click_button('Shorten')
     expect(page).to have_content('Please enter a valid URL')
   end
+
+  scenario 'User enters an incorrect url' do
+    visit '/'
+    fill_in('url', :with => 'test')
+    click_button('Shorten')
+    expect(page).to have_content('Please enter a valid URL')
+  end
 end

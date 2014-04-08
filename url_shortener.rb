@@ -1,4 +1,5 @@
 require 'sinatra/base'
+require 'uri'
 require './urls'
 
 class UrlShortener < Sinatra::Application
@@ -17,7 +18,7 @@ class UrlShortener < Sinatra::Application
 
   post '/shorten' do
     url_to_shorten = params[:url]
-    if url_to_shorten.empty?
+    if url_to_shorten.empty? || url_to_shorten.split(' ').count > 1 || !is_valid_url?(url_to_shorten)
       settings.error = 'Please enter a valid URL'
       settings.url_to_shorten = url_to_shorten
       redirect '/'
@@ -42,6 +43,14 @@ class UrlShortener < Sinatra::Application
       URLS.increase_views(id)
       redirect original_url
     end
+  end
+
+  def is_valid_url?(url_to_shorten)
+    url = false
+    if url_to_shorten =~ /^#{URI::regexp}$/
+      url = true
+    end
+    url
   end
 
 end
