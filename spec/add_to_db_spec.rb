@@ -30,4 +30,10 @@ describe 'Add urls to db' do
     expect(new.find_id('http://google.com')).to eq(1)
   end
 
+  it 'can find the views the page has gotten' do
+    new = Urls.new
+    new.add('http://google.com')
+    expect(new.find_stats(1)).to eq(0)
+  end
+
 end

@@ -14,4 +14,8 @@ class Urls
   def find_id(url)
     @urls.where(:url => url).select(:id).first[:id]
   end
+
+  def find_stats(id)
+    @urls.where(:id => id).select(:stats).first[:stats]
+  end
 end
