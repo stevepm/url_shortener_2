@@ -8,7 +8,7 @@ class Urls
   end
 
   def find_url(id)
-    @urls.where(:id => id).select(:url).first[:url]
+    @urls.where(:id => id.to_i).select(:url).first[:url]
   end
 
   def find_id(url)
@@ -16,10 +16,10 @@ class Urls
   end
 
   def find_stats(id)
-    @urls.where(:id => id).select(:stats).first[:stats]
+    @urls.where(:id => id.to_i).select(:stats).first[:stats]
   end
 
   def increase_views(id)
-    @urls.where(:id => id).update(:stats => Sequel.+(:stats,1))
+    @urls.where(:id => id.to_i).update(:stats => Sequel.+(:stats,1))
   end
 end

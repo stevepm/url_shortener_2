@@ -8,3 +8,7 @@ RSpec.configure do |config|
   config.filter_run :focus
   config.order = 'random'
 end
+
+def id_of_created_url(current_path)
+  current_path.gsub('/','')
+end
