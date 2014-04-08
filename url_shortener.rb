@@ -43,12 +43,14 @@ class UrlShortener < Sinatra::Application
 
   private
   def is_valid_url?(url_to_shorten)
-    # url_to_shorten.prepend('http://') unless url_to_shorten.include('http://','https://')
     url = false
-    if url_to_shorten =~ /^#{URI::regexp}$/
-      url = true
+    if url_to_shorten.empty? || url_to_shorten.split(' ').count > 1 || url_to_shorten.nil?
+    elsif url_to_shorten
+      if url_to_shorten =~ /^#{URI::regexp}$/
+        url = true
+      end
+      url
     end
-    url
   end
 
 end
