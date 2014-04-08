@@ -6,12 +6,7 @@ class UrlShortener < Sinatra::Application
 
   URLS = Urls.new
   INVALID_URL_ERROR = 'Please+enter+a+valid+URL'
-  # set :error => ''
-  # set :url_to_shorten => ''
 
-  get '/favicon.ico' do
-    "nothing"
-  end
 
   get '/' do
     error = params[:error]
