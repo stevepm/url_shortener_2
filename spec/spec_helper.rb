@@ -1,12 +1,13 @@
 ENV['RACK_ENV'] = 'test'
-require 'sequel'
-database = if !ENV['HEROKU_POSTGRESQL_JADE_URL'].nil?
-             ENV['HEROKU_POSTGRESQL_JADE_URL']
-           else
-             'postgres://gschool_user:password@localhost/url_shortener'
-           end
 
-DB = Sequel.connect(database)
+require_relative '../boot'
+require 'capybara/rspec'
+require_relative 'support/migrator'
+
+DB = Sequel.connect(ENV['TEST_DATABASE_URL'])
+Migrator.new(DB).run
+UrlShortener.urls = Urls.new(DB)
+Capybara.app = UrlShortener
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
@@ -16,5 +17,5 @@ RSpec.configure do |config|
 end
 
 def id_of_created_url(current_path)
-  current_path.gsub('/','')
+  current_path.gsub('/', '')
 end

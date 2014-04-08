@@ -1,13 +1,4 @@
-require 'sequel'
-
-database = if !ENV['HEROKU_POSTGRESQL_JADE_URL'].nil?
-             ENV['HEROKU_POSTGRESQL_JADE_URL']
-           else
-             'postgres://gschool_user:password@localhost/url_shortener'
-           end
-
-DB = Sequel.connect(database)
-
-require './url_shortener'
-
+require_relative 'boot'
+db = Sequel.connect(ENV['DATABASE_URL'])
+UrlShortener.urls = Urls.new(db)
 run UrlShortener
