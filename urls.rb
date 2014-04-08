@@ -18,4 +18,8 @@ class Urls
   def find_stats(id)
     @urls.where(:id => id).select(:stats).first[:stats]
   end
+
+  def increase_views(id)
+    @urls.where(:id => id).update(:stats => Sequel.+(:stats,1))
+  end
 end

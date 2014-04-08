@@ -4,7 +4,6 @@ require_relative '../url_shortener'
 require './urls'
 
 describe 'Add urls to db' do
-  DB = Sequel.connect('postgres://gschool_user:password@localhost/url_shortener')
   before do
     DB.create_table!(:urls) do
       primary_key :id
@@ -34,6 +33,15 @@ describe 'Add urls to db' do
     new = Urls.new
     new.add('http://google.com')
     expect(new.find_stats(1)).to eq(0)
+  end
+
+  it 'can increase the views' do
+    new = Urls.new
+    new.add('http://google.com')
+    new.increase_views(1)
+    expect(new.find_stats(1)).to eq(1)
+    new.increase_views(1)
+    expect(new.find_stats(1)).to eq(2)
   end
 
 end
