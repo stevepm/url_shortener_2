@@ -6,6 +6,8 @@ feature 'URL Shortening' do
   end
 
   scenario 'Shorten a URL' do
+    pending
+
     visit '/'
     fill_in('url', :with => 'http://google.com')
     click_button('Shorten')
@@ -18,6 +20,8 @@ feature 'URL Shortening' do
   end
 
   scenario 'User enters a blank url' do
+    pending
+
     visit '/'
     fill_in('url', :with => '')
     click_button('Shorten')
@@ -25,6 +29,8 @@ feature 'URL Shortening' do
   end
 
   scenario 'User enters an incorrect url' do
+    pending
+
     visit '/'
     fill_in('url', :with => 'test')
     click_button('Shorten')

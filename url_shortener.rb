@@ -13,16 +13,19 @@ class UrlShortener < Sinatra::Application
   get '/' do
     error = params[:error]
     url_to_shorten = params[:url]
-    erb :index, :locals => {:error => error, :url_to_shorten => url_to_shorten}
+    vanity = params[:vanity]
+    erb :index, :locals => {:error => error, :url_to_shorten => url_to_shorten, :vanity => vanity}
   end
 
   post '/shorten' do
     url_to_shorten = params[:url]
-    if url_to_shorten.empty? || url_to_shorten.split(' ').count > 1 || !is_valid_url?(url_to_shorten) || url_to_shorten.nil?
-      redirect "/?url=#{url_to_shorten}&error=#{INVALID_URL_ERROR}"
+    vanity = params[:vanity]
+    if !is_valid_url?(url_to_shorten)
+      redirect "/?url=#{url_to_shorten}&error=#{INVALID_URL_ERROR}&vanity=#{vanity}"
     else
-      id = self.class.urls.add(url_to_shorten)
-      redirect to("/#{id}?stats=true")
+      id = self.class.urls.add(url_to_shorten, vanity)
+      get_vanity = self.class.urls.find_vanity(id)
+      redirect to("/#{get_vanity}?stats=true")
     end
 
   end
