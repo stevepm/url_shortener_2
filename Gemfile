@@ -10,4 +10,5 @@ group :development do
   gem 'capybara', '~> 2.2.1'
   gem 'rerun', '~> 0.9.0'
   gem 'dotenv', '~> 0.10.0'
+  gem 'launchy', '~> 2.4.2'
 end
