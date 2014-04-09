@@ -17,9 +17,4 @@ feature 'Counts views to each page' do
     visit "/#{id}?stats=true"
     expect(page).to have_content('Views: 2')
   end
-
-  scenario 'users goes to a page that doesnt exist' do
-    visit '/2'
-    expect(current_url).to eq("http://www.example.com/")
-  end
 end
