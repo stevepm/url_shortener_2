@@ -5,6 +5,7 @@ require_relative 'urls'
 class UrlShortener < Sinatra::Application
 
   INVALID_URL_ERROR = 'Please+enter+a+valid+URL'
+  INVALID_VANITY_ERROR = 'That+vanity+name+is+already+taken'
 
   class << self
     attr_accessor :urls
@@ -13,34 +14,35 @@ class UrlShortener < Sinatra::Application
   get '/' do
     error = params[:error]
     url_to_shorten = params[:url]
-    vanity = params[:vanity]
-    erb :index, :locals => {:error => error, :url_to_shorten => url_to_shorten, :vanity => vanity}
+    vanity_name = params[:vanity_name]
+    erb :index, :locals => {:error => error, :url_to_shorten => url_to_shorten, :vanity_name => vanity_name}
   end
 
   post '/shorten' do
-    url_to_shorten = params[:url]
-    vanity = params[:vanity]
-    if !is_valid_url?(url_to_shorten)
-      redirect "/?url=#{url_to_shorten}&error=#{INVALID_URL_ERROR}&vanity=#{vanity}"
+    url_to_shorten = params[:url_to_shorten]
+    vanity_name = params[:vanity_name]
+    if is_valid_url?(url_to_shorten)
+      vanity_url = Urls.create?(url_to_shorten, vanity_name)
+      if vanity_url != false
+        redirect to("/#{vanity_url}?stats=true")
+      else
+        redirect to("/?url=#{url_to_shorten}&error=#{INVALID_VANITY_ERROR}&vanity_name=#{vanity_name}")
+      end
     else
-      id = self.class.urls.add(url_to_shorten, vanity)
-      get_vanity = self.class.urls.find_vanity(id)
-      redirect to("/#{get_vanity}?stats=true")
+      redirect to("/?url=#{url_to_shorten}&error=#{INVALID_URL_ERROR}&vanity_name=#{vanity_name}")
     end
 
   end
 
   get '/:id' do
-    stats = params[:stats] == 'true'
-    id = params[:id]
-    original_url = self.class.urls.find_url(id)
-    new_url = "#{request.base_url}/#{id}"
-    views = self.class.urls.find_stats(id)
-    if stats
-      erb :stats, :locals => {:original_url => original_url, :new_url => new_url, :views => views}
+    view_stats = params[:stats] == 'true'
+    url_record = Urls.find?(params[:id])
+    new_url = "#{request.base_url}/#{params[:id]}"
+    if url_record && view_stats
+      erb :stats, :locals => {:url_record => url_record, :new_url => new_url}
     else
-      self.class.urls.increase_views(id)
-      redirect original_url
+      url_record.increase_views
+      redirect url_record.url
     end
   end
 

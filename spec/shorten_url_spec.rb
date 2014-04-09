@@ -6,10 +6,8 @@ feature 'URL Shortening' do
   end
 
   scenario 'Shorten a URL' do
-    pending
-
     visit '/'
-    fill_in('url', :with => 'http://google.com')
+    fill_in('url_to_shorten', :with => 'http://google.com')
     click_button('Shorten')
     expect(page).to have_content('http://google.com')
     expect(page).to have_content("http://www.example.com/#{id_of_created_url(current_path)}")
