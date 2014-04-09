@@ -7,7 +7,7 @@ feature 'URL Shortening' do
 
   scenario 'Shorten a URL' do
     visit '/'
-    fill_in('url', :with => 'http://google.com')
+    fill_in('url_to_shorten', :with => 'http://google.com')
     click_button('Shorten')
     expect(page).to have_content('http://google.com')
     expect(page).to have_content("http://www.example.com/#{id_of_created_url(current_path)}")
@@ -18,15 +18,17 @@ feature 'URL Shortening' do
   end
 
   scenario 'User enters a blank url' do
+
     visit '/'
-    fill_in('url', :with => '')
+    fill_in('url_to_shorten', :with => '')
     click_button('Shorten')
     expect(page).to have_content('Please enter a valid URL')
   end
 
   scenario 'User enters an incorrect url' do
+
     visit '/'
-    fill_in('url', :with => 'test')
+    fill_in('url_to_shorten', :with => 'test')
     click_button('Shorten')
     expect(page).to have_content('Please enter a valid URL')
   end
