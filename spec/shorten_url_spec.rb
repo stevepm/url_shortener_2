@@ -18,19 +18,17 @@ feature 'URL Shortening' do
   end
 
   scenario 'User enters a blank url' do
-    pending
 
     visit '/'
-    fill_in('url', :with => '')
+    fill_in('url_to_shorten', :with => '')
     click_button('Shorten')
     expect(page).to have_content('Please enter a valid URL')
   end
 
   scenario 'User enters an incorrect url' do
-    pending
 
     visit '/'
-    fill_in('url', :with => 'test')
+    fill_in('url_to_shorten', :with => 'test')
     click_button('Shorten')
     expect(page).to have_content('Please enter a valid URL')
   end

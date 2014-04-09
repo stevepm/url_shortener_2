@@ -6,11 +6,10 @@ feature 'Vanity URLs' do
   end
 
   scenario 'Shorten a URL with specific vanity URL' do
-    pending
 
     visit '/'
-    fill_in('url', :with => 'http://google.com')
-    fill_in('vanity', :with => 'google')
+    fill_in('url_to_shorten', :with => 'http://google.com')
+    fill_in('vanity_name', :with => 'google')
     click_button('Shorten')
     expect(page).to have_content('http://google.com')
     expect(page).to have_content("http://www.example.com/google")

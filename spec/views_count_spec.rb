@@ -6,10 +6,9 @@ feature 'Counts views to each page' do
     Migrator.new(DB).run
   end
   scenario 'it increases views when pages are visited' do
-    pending
 
     visit '/'
-    fill_in('url', :with => 'http://google.com')
+    fill_in('url_to_shorten', :with => 'http://google.com')
     click_button('Shorten')
     id = id_of_created_url(current_path)
     visit "/#{id_of_created_url(current_path)}"
@@ -21,6 +20,6 @@ feature 'Counts views to each page' do
 
   scenario 'users goes to a page that doesnt exist' do
     visit '/2'
-    expect(current_url).to eq("http://www.example.com")
+    expect(current_url).to eq("http://www.example.com/")
   end
 end

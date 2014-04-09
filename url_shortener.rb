@@ -40,6 +40,8 @@ class UrlShortener < Sinatra::Application
     new_url = "#{request.base_url}/#{params[:id]}"
     if url_record && view_stats
       erb :stats, :locals => {:url_record => url_record, :new_url => new_url}
+    elsif !url_record
+      redirect '/'
     else
       url_record.increase_views
       redirect url_record.url
