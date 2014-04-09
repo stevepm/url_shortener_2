@@ -8,6 +8,7 @@ class Urls
     end
 
     def create?(url, vanity_name = nil)
+      errors = [Sequel::UniqueConstraintViolation, Sequel::DatabaseError]
       begin
         if vanity_name
           db.insert(:url => url, :vanity_name => vanity_name.to_s)
@@ -17,7 +18,7 @@ class Urls
           db.where(:id => id).update(:vanity_name => id.to_s)
           id.to_s
         end
-      rescue Sequel::UniqueConstraintViolation
+      rescue *errors
         false
       end
     end

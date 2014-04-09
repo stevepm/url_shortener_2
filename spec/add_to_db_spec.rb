@@ -43,4 +43,8 @@ describe 'Add urls to db' do
     expect(actual).to eq(false)
   end
 
+  it 'can return false if vanity is too long' do
+    expect(Urls.create?('http://google.com', 'jkawkjdjakwdkjawjkdklawdlk')).to eq(false)
+  end
+
 end
