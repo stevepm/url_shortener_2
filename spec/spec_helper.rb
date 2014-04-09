@@ -6,7 +6,7 @@ require_relative 'support/migrator'
 
 DB = Sequel.connect(ENV['TEST_DATABASE_URL'])
 Migrator.new(DB).run
-UrlShortener.urls = Urls.new(DB)
+Urls.attach_db(DB[:urls])
 Capybara.app = UrlShortener
 
 RSpec.configure do |config|
