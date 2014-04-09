@@ -10,7 +10,7 @@ class Urls
     def create?(url, vanity_name = nil)
       errors = [Sequel::UniqueConstraintViolation, Sequel::DatabaseError]
       begin
-        if vanity_name
+        if vanity_name && !vanity_name.strip.empty?
           db.insert(:url => url, :vanity_name => vanity_name.to_s)
           vanity_name
         else
