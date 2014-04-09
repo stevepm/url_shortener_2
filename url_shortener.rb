@@ -23,7 +23,7 @@ class UrlShortener < Sinatra::Application
     vanity_name = params[:vanity_name]
     if is_valid_url?(url_to_shorten)
       vanity_url = Urls.create?(url_to_shorten, vanity_name)
-      if vanity_url != false
+      if vanity_url
         redirect to("/#{vanity_url}?stats=true")
       else
         redirect to("/?url=#{url_to_shorten}&error=#{INVALID_VANITY_ERROR}&vanity_name=#{vanity_name}")
