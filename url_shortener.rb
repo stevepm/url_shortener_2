@@ -11,6 +11,11 @@ class UrlShortener < Sinatra::Application
     attr_accessor :urls
   end
 
+  helpers do
+    include Rack::Utils
+    alias_method :h, :escape_html
+  end
+
   get '/' do
     error = params[:error]
     url_to_shorten = params[:url]
