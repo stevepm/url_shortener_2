@@ -31,10 +31,10 @@ class UrlShortener < Sinatra::Application
       if vanity_url
         redirect to("/#{vanity_url}?stats=true")
       else
-        redirect to("/?url=#{url_to_shorten}&error=#{INVALID_VANITY_ERROR}&vanity_name=#{vanity_name}")
+        redirect to(URI.parse(URI.encode("/?url=#{url_to_shorten}&error=#{INVALID_VANITY_ERROR}&vanity_name=#{vanity_name}")))
       end
     else
-      redirect to("/?url=#{url_to_shorten}&error=#{INVALID_URL_ERROR}&vanity_name=#{vanity_name}")
+      redirect to(URI.parse(URI.encode("/?url=#{url_to_shorten}&error=#{INVALID_URL_ERROR}&vanity_name=#{vanity_name}")))
     end
 
   end
