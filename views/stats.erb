@@ -1,7 +1,8 @@
-<div>
+<div class="stats_page">
   <ul>
-    <li>Original URL: <%=h url_record.url %></li>
-    <li>New URL: <%=h new_url %></li>
-    <li>Views: <%=h url_record.stats %></li>
+    <li>Original URL: <span class="content"><%=h url_record.url %></span></li>
+    <li>New URL: <span class="content"><%=h new_url %></span></li>
+    <li>Views: <span class="content"><%=h url_record.stats %></span></li>
   </ul>
+  <p><a href="/">Shorten another URL</a></p>
 </div>

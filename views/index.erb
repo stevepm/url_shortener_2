@@ -1,8 +1,8 @@
 <div>
-  <p><%=h error %></p>
-  <form action="shorten" method="post">
-    <input type="text" placeholder="Enter URL to shorten" name="url_to_shorten" value="<%=h url_to_shorten %>" autofocus>
-    <input type="text" placeholder="Optional: Enter your own keyword" name="vanity_name" value="<%=h vanity_name %>">
-    <input type="submit" value="Shorten">
+  <p class="error-center"><%=h error %></p>
+  <form action="shorten" method="post" class="form-center">
+    <input class="input" type="text" placeholder="Enter URL to shorten" name="url_to_shorten" value="<%=h url_to_shorten %>" autofocus><br/>
+    <input class="input" type="text" placeholder="Optional: Enter your own keyword" name="vanity_name" value="<%=h vanity_name %>"><br/>
+    <input class="submit" type="submit" value="Shorten">
   </form>
 </div>
