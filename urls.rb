@@ -9,6 +9,8 @@ class Urls
 
     def create?(url, vanity_name = nil)
       errors = [Sequel::UniqueConstraintViolation, Sequel::DatabaseError]
+      url.prepend('http://') unless url.start_with?('http://','https://')
+
       begin
         if vanity_name && !vanity_name.strip.empty?
           db.insert(:url => url, :vanity_name => vanity_name.to_s)

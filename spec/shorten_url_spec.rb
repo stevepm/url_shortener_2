@@ -32,4 +32,11 @@ feature 'URL Shortening' do
     click_button('Shorten')
     expect(page).to have_content('Please enter a valid URL')
   end
+  scenario 'User enters an url without http://' do
+
+    visit '/'
+    fill_in('url_to_shorten', :with => 'google.com')
+    click_button('Shorten')
+    expect(page).to have_content('http://google.com')
+  end
 end

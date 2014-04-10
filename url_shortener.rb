@@ -63,7 +63,7 @@ class UrlShortener < Sinatra::Application
     url = false
     if url_to_shorten.empty? || url_to_shorten.split(' ').count > 1 || url_to_shorten.nil?
     elsif url_to_shorten
-      if url_to_shorten =~ /^#{URI::regexp}$/
+      if url_to_shorten =~ /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
         url = true
       end
       url
