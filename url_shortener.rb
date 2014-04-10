@@ -6,6 +6,7 @@ class UrlShortener < Sinatra::Application
 
   INVALID_URL_ERROR = 'Please+enter+a+valid+URL'
   INVALID_VANITY_ERROR = 'That+vanity+name+is+already+taken'
+  INCORRECT_URL_ERROR = 'You+have+entered+an+incorrect+url'
 
   class << self
     attr_accessor :urls
@@ -51,6 +52,10 @@ class UrlShortener < Sinatra::Application
       url_record.increase_views
       redirect url_record.url
     end
+  end
+
+  not_found do
+    redirect to(URI.parse(URI.encode("/?error=#{INCORRECT_URL_ERROR}")))
   end
 
   private
